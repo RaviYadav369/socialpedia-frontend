@@ -12,23 +12,27 @@ import {
   BsBellFill,
 } from "react-icons/bs";
 import Post from "../components/Post";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
+  const userId = 2;
   return (
     <>
       <Navbar />
-      <div className="">
+      <div>
         <div className="grid grid-cols-4 mt-24">
           <div className="col-span-1 h-[400px] flex justify-end ">
             <div className=" bg-white w-4/5 p-2 rounded-lg">
               <div className="border-b-2">
-                <div className="w-12 h-12 mx-auto mb-2">
-                  <img
-                    className="w-full h-full rounded-full"
-                    alt="photo"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
-                  />
-                </div>
+                <Link to={`/profile/${userId}`}>
+                  <div className="w-12 h-12 mx-auto mb-2">
+                    <img
+                      className="w-full h-full rounded-full"
+                      alt="photo"
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
+                    />
+                  </div>
+                </Link>
               </div>
               <div className="my-3 border-b-2">
                 <p className="p-2 text-sm">
@@ -67,11 +71,13 @@ const HomePage = () => {
           <div className="col-span-2">
             <div className="w-11/12 mx-auto bg-white p-2 rounded-lg">
               <div>
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
-                  alt="photo"
-                  className="w-10 h-10 rounded-full inline"
-                />
+                <Link to={`/profile/${userId}`}>
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
+                    alt="photo"
+                    className="w-10 h-10 rounded-full inline"
+                  />
+                </Link>
                 <input
                   type="text"
                   placeholder="Start the Post"
@@ -100,10 +106,10 @@ const HomePage = () => {
               <Post />
             </div>
             <div className="w-11/12 bg-white rounded-lg mx-auto mt-2">
-              <Post />  
+              <Post />
             </div>
             <div className="w-11/12 bg-white rounded-lg mx-auto mt-2">
-              <Post />  
+              <Post />
             </div>
           </div>
           <div className="col-span-1">

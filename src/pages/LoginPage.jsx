@@ -1,27 +1,84 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { signIn } from "../store/reducers/auth/auth.action";
 
 const LoginPage = () => {
-  const handleclick =()=>{
-   alert('Welcome to Socialpedia')
-  }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [newCredentials, setnewCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async () => {
+    console.log(newCredentials);
+    await dispatch(signIn(newCredentials));
+    navigate("/feed");
+    // setnewCredentials({ email: "", password: "" });
+  };
+  const onChange = (e) => {
+    setnewCredentials({ ...newCredentials, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
-    <h2 className='p-5 text-3xl font-semibold bg-slate-100 text-cyan-300 text-center'>Socialpedia</h2>
-    <div className='mx-auto mt-5 p-4 w-2/3 rounded-md bg-cyan-200'>
-     <p className='text-slate-500 font-medium text-4xl'>
-       Welcome To Socialpedia, the social media for social Gatther
-     </p>
-     <div className='bg-cyan-200 p-3 m-4 mt-8'>
-      <form>
-        <input type='email' required className='p-3 mt-4 rounded-xl text-lg w-full font-medium border-none' placeholder='Enter Your Email' />
-        <input type='password' required className='p-3 mt-4 rounded-xl text-lg w-full font-medium border-none' placeholder='Enter Your Password' />
-      </form>
-      <button type='submit' onClick={()=>handleclick()} className='p-3 mt-12 w-full text-center bg-cyan-600 text-xl text-white font-semibold rounded-2xl'>Sign In</button>
-     <p className=' p-2 hover:text-red-500'>Don't have account?Sign up here</p>
-     </div>
-    </div>
+      <h2 className="p-5 text-3xl font-semibold bg-white text-cyan-400 text-center">
+        Socialpedia
+      </h2>
+      <div className="mx-auto mt-5 p-4 w-2/3 rounded-md bg-white">
+        <p className="text-slate-500 font-medium text-4xl">
+          Welcome To Socialpedia, the social media for social Gatther
+        </p>
+        <div className="bg-white p-3 m-4 mt-8">
+          <form >
+            <div className="w-full">
+              <label className="mr-14 font-semibold text-lg" htmlFor="email">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={newCredentials.email}
+                onChange={onChange}
+                required
+                className="p-3 mt-4 rounded-xl text-lg w-4/5 font-medium border "
+                placeholder="Enter Your Email"
+              />
+            </div>
+            <div className="w-full">
+              <label className="mr-6 font-semibold text-lg" htmlFor="password">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={newCredentials.password}
+                onChange={onChange}
+                required
+                name="password"
+                className="p-3 mt-4 rounded-xl text-lg w-4/5 font-medium border"
+                placeholder="Enter Your Password"
+              />
+            </div>
+            <div
+              onClick={handleSubmit}
+              className="p-3 mt-12 w-full text-center bg-cyan-300 text-xl hover:bg-cyan-500 transition delay-150 text-white font-semibold rounded-2xl"
+            >
+              Sign In
+            </div>
+          </form>
+          <p className=" p-2 ">
+            Don't have account?{" "}
+            <span className="hover:text-red-400 font-semibold">
+              <Link to="/signup">Sign up here</Link>
+            </span>
+          </p>
+        </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

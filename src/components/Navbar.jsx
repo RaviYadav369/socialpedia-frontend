@@ -7,14 +7,16 @@ import {
   BsBellFill,
 } from "react-icons/bs";
 import { MdLightMode } from "react-icons/md";
+import { Link } from "react-router-dom";
 const Navbar = () => {
+  const userId =2;
   return (
     <>
       <div className="relative">
         <div className="flex w-full fixed z-10 top-0  justify-between p-4 bg-white">
           <div className="w-1/4">
             <h2 className="p-1 px-5 font-bold text-2xl text-cyan-400">
-              Socialpedia
+              <Link to="/feed">Socialpedia</Link>
             </h2>
           </div>
           <div className="w-2/4 relative">
@@ -31,7 +33,9 @@ const Navbar = () => {
                 <MdLightMode />
               </li>
               <li className="text-xl">
-                <TbUsersPlus />
+                <Link to="/friends">
+                  <TbUsersPlus />
+                </Link>
               </li>
               <li className="text-xl">
                 <BsMessenger />
@@ -41,6 +45,17 @@ const Navbar = () => {
               </li>
               <li className="text-xl">
                 <BsFillQuestionCircleFill />
+              </li>
+              <li className="">
+                <Link to={`/profile/${userId}`} >
+                  <div className="h-10  w-10">
+                    <img
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
+                      className="rounded-full w-full h-full object-contain"
+                      alt="photo"
+                    />
+                  </div>
+                </Link>
               </li>
             </ul>
           </div>

@@ -2,17 +2,21 @@ import React from "react";
 import { HiMiniUserPlus } from "react-icons/hi2";
 import { BiCommentDetail } from "react-icons/bi";
 import { AiOutlineLike } from "react-icons/ai";
-import {BsShare} from 'react-icons/bs'
+import { BsShare } from "react-icons/bs";
+import { Link } from "react-router-dom";
 const Post = () => {
+  const userId = 4;
   return (
     <>
       <div className="w-full px-4 mt-3 mx-auto bg-white ">
         <div className="pt-2">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
-            alt="photo"
-            className="w-12 h-12 rounded-full inline"
-          />
+          <Link to={`/profile/${userId}`}>
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
+              alt="photo"
+              className="w-12 h-12 rounded-full inline"
+            />
+          </Link>
           <div className="inline-block relative w-11/12 ">
             <span className="text-lg p-2 font-semibold ">Ravi Yadav</span>
             <span className=" right-0 absolute">
@@ -36,12 +40,11 @@ const Post = () => {
           </div>
           <div className="p-2 border-t m-1 flex justify-between">
             <div className="gap-7 flex">
-
-            <AiOutlineLike className="text-2xl" />
-            <BiCommentDetail className="text-2xl" />
+              <AiOutlineLike className="text-2xl" />
+              <BiCommentDetail className="text-2xl" />
             </div>
             <div>
-                <BsShare  className='text-xl' />
+              <BsShare className="text-xl" />
             </div>
           </div>
         </div>
