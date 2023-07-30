@@ -1,4 +1,3 @@
-import { json } from 'react-router-dom';
 import { SIGN_IN, SIGN_UP, SIGN_OUT } from './auth.type'
 import axios from 'axios';
 export const signIn = (userData) => async (dispatch) => {
@@ -9,7 +8,6 @@ export const signIn = (userData) => async (dispatch) => {
             data: userData,
         });
         localStorage.setItem('socialUser', JSON.stringify({ token: User.data.token }))
-        console.log(User);
         axios.defaults.headers.common["Authorization"] = `Bearer ${User.data.token}`
         return dispatch({ type: SIGN_IN, payload: User.data })
 

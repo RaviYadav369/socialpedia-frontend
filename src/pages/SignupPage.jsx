@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { signUp } from "../store/reducers/auth/auth.action";
 
 const SignupPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [newCredentials, setnewCredentials] = useState({
     firstName: "",
     lastName: "",
@@ -10,29 +13,15 @@ const SignupPage = () => {
     password: "",
   });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("submit");
-    const response = await fetch("http://localhost:3001/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: newCredentials.firstName,
-        lastName: newCredentials.lastName,
-        email: newCredentials.email,
-        password: newCredentials.password,
-      }),
-    });
-    const json = await response.json();
-    console.log(json);
-    localStorage.getItem("token", json.token);
-    if (json.saveUser) {
-      navigate("/login");
-    } else {
-      alert("error occcured");
-    }
+  const handleSubmit = async () => {
+    await dispatch(signUp(newCredentials))
+    navigate('/login')
+    setnewCredentials({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    })
   };
   const onChange = (e) => {
     setnewCredentials({ ...newCredentials, [e.target.name]: e.target.value });
@@ -48,7 +37,7 @@ const SignupPage = () => {
           Welcome To Socialpedia, the social media for social Gatther
         </p>
         <div className="bg-slate-100 p-3 m-4 mt-8">
-          <form onSubmit={handleSubmit}>
+          <form >
             <div className="w-full">
               <label
                 className="mr-4  font-semibold text-lg"
@@ -112,12 +101,12 @@ const SignupPage = () => {
                 placeholder="Enter Your Password"
               />
             </div>
-            <button
-              type="submit"
-              className="p-3 mt-12 w-full text-center bg-cyan-300 text-xl hover:bg-cyan-500 transition delay-150 text-white font-semibold rounded-2xl"
+            <div
+              onClick={handleSubmit}
+              className="p-3 mt-12 w-full cursor-pointer text-center bg-cyan-300 text-xl hover:bg-cyan-500 transition delay-150 text-white font-semibold rounded-2xl"
             >
               Sign Up
-            </button>
+            </div>
           </form>
           <p className=" p-2 ">
             Already have account?{" "}

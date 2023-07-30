@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../store/reducers/auth/auth.action";
+import { getPost } from "../store/reducers/post/post.action";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -14,8 +15,9 @@ const LoginPage = () => {
   const handleSubmit = async () => {
     console.log(newCredentials);
     await dispatch(signIn(newCredentials));
+    dispatch(getPost())
     navigate("/feed");
-    // setnewCredentials({ email: "", password: "" });
+    setnewCredentials({ email: "", password: "" });
   };
   const onChange = (e) => {
     setnewCredentials({ ...newCredentials, [e.target.name]: e.target.value });
@@ -64,7 +66,7 @@ const LoginPage = () => {
             </div>
             <div
               onClick={handleSubmit}
-              className="p-3 mt-12 w-full text-center bg-cyan-300 text-xl hover:bg-cyan-500 transition delay-150 text-white font-semibold rounded-2xl"
+              className="p-3 mt-12 cursor-pointer w-full text-center bg-cyan-300 text-xl hover:bg-cyan-500 transition delay-150 text-white font-semibold rounded-2xl"
             >
               Sign In
             </div>

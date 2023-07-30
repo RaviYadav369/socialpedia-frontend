@@ -13,65 +13,79 @@ import {
 } from "react-icons/bs";
 import Post from "../components/Post";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
-  const userId = 2;
+  const post = useSelector((globalstate) => globalstate.post);
+  const user = useSelector((globalstate) =>
+    globalstate.auth.user ? globalstate.auth.user : globalstate.user
+  );
+  console.log(post);
+
   return (
     <>
       <Navbar />
       <div>
         <div className="grid grid-cols-4 mt-24">
-          <div className="col-span-1 h-[400px] flex justify-end ">
-            <div className=" bg-white w-4/5 p-2 rounded-lg">
-              <div className="border-b-2">
-                <Link to={`/profile/${userId}`}>
-                  <div className="w-12 h-12 mx-auto mb-2">
-                    <img
-                      className="w-full h-full rounded-full"
-                      alt="photo"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
-                    />
-                  </div>
-                </Link>
-              </div>
-              <div className="my-3 border-b-2">
-                <p className="p-2 text-sm">
-                  <CiLocationOn className="inline text-xl" /> New Delhi, India
-                </p>
-                <p className="p-2 text-sm">
-                  <GrDocumentText className="inline text-lg" /> Software
-                  Engineer at MSME
-                </p>
-              </div>
-              <div className="my-3 border-b-2">
-                <p className="p-2 relative text-sm">
-                  Who's viewed your profile
-                  <p className="absolute right-2 top-2">1355</p>
-                </p>
-                <p className="p-2 relative text-sm">
-                  Impresstion of your post
-                  <p className="absolute right-2 top-2">15432</p>
-                </p>
-              </div>
-              <div className="my-3 border-b-2">
-                <h2 className="font-semibold">Social Profiles</h2>
-                <p className="p-2 relative text-sm">
-                  <FaTwitter className="inline text-lg mr-1" />
-                  Who's viewed your profile
-                  <HiPencil className="absolute right-2 top-2 text-lg" />
-                </p>
-                <p className="p-2 relative text-sm">
-                  <AiFillLinkedin className="inline text-lg mr-1" />
-                  Impresstion of your post
-                  <HiPencil className="absolute right-2 top-2 text-lg" />
-                </p>
+          {user?.firstName ? (
+            <div className="col-span-1 h-[400px] flex justify-end ">
+              <div className=" bg-white w-4/5 p-2 rounded-lg">
+                <div className="border-b-2">
+                  <Link to={`/profile/${user._id}`}>
+                    <div className="w-12 h-12 mx-auto ">
+                      <img
+                        className="w-full h-full rounded-full"
+                        alt="photo"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
+                      />
+                    </div>
+                  </Link>
+                  <h2 className="font-semibold text-center p-1 text-xl">{`${user.firstName} ${user.lastName}`}</h2>
+                </div>
+                <div className="my-3 border-b-2">
+                  <p className="p-2 text-sm">
+                    <CiLocationOn className="inline text-xl" /> {user.location}
+                  </p>
+                  <p className="p-2 text-sm">
+                    <GrDocumentText className="inline text-lg" />
+                    {user.occupation}
+                  </p>
+                </div>
+                <div className="my-3 border-b-2">
+                  <p className="p-2 relative text-sm">
+                    Who's viewed your profile
+                    <p className="absolute right-2 top-2">
+                      {user.viewedProfile}
+                    </p>
+                  </p>
+                  <p className="p-2 relative text-sm">
+                    Impresstion of your post
+                    <p className="absolute right-2 top-2">{user.impressions}</p>
+                  </p>
+                </div>
+                <div className="my-3 border-b-2">
+                  <h2 className="font-semibold">Social Profiles</h2>
+                  <p className="p-2 relative text-sm">
+                    <FaTwitter className="inline text-lg mr-1" />
+                    Who's viewed your profile
+                    <HiPencil className="absolute right-2 top-2 text-lg" />
+                  </p>
+                  <p className="p-2 relative text-sm">
+                    <AiFillLinkedin className="inline text-lg mr-1" />
+                    Impresstion of your post
+                    <HiPencil className="absolute right-2 top-2 text-lg" />
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="col-span-1 " /> 
+          )}
+
           <div className="col-span-2">
             <div className="w-11/12 mx-auto bg-white p-2 rounded-lg">
               <div>
-                <Link to={`/profile/${userId}`}>
+                <Link to={`/profile/${user._id}`}>
                   <img
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
                     alt="photo"
@@ -95,22 +109,20 @@ const HomePage = () => {
                       <BsBellFill className="inline text-xl" /> Event
                     </li>
                     <li className="font-semibold">
-                      <BsFillQuestionCircleFill className="inline text-xl" />{" "}
+                      <BsFillQuestionCircleFill className="inline text-xl" />
                       Write Article
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
-            <div className="w-11/12 bg-white rounded-lg mx-auto mt-2">
-              <Post />
-            </div>
-            <div className="w-11/12 bg-white rounded-lg mx-auto mt-2">
-              <Post />
-            </div>
-            <div className="w-11/12 bg-white rounded-lg mx-auto mt-2">
-              <Post />
-            </div>
+
+            {post.data.map((postData, index) => (
+              <div className="w-11/12 bg-white rounded-lg mx-auto mt-2">
+                <Post post={postData} key={index} />
+              </div>
+            ))}
+            
           </div>
           <div className="col-span-1">
             <div className="bg-white w-4/5 p-2 rounded-lg">

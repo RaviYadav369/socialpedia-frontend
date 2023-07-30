@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { CiLocationOn } from "react-icons/ci";
 import { GrDocumentText } from "react-icons/gr";
@@ -12,8 +12,26 @@ import {
   BsBellFill,
 } from "react-icons/bs";
 import Post from "../components/Post";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../store/reducers/user/user.action";
+import { useParams } from "react-router-dom";
+import { getUserPost } from "../store/reducers/post/post.action";
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
+  const params = useParams();
+
+  // useEffect(()=>{
+  //   dispatch(getUser(params.userId));
+  //   dispatch(getUserPost(params.userId))
+ 
+  // },[params.userId])
+   
+
+  let post = useSelector((globalstate) => globalstate.post);
+  const profileUser = useSelector((globalstate) => globalstate.user);
+
+  console.log(profileUser);
   return (
     <>
       <Navbar />
@@ -29,24 +47,30 @@ const ProfilePage = () => {
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
                   />
                 </div>
+                <h2>{`${profileUser.firstName} ${profileUser.laseName}`}</h2>
               </div>
               <div className="my-3 border-b-2">
                 <p className="p-2 text-sm">
-                  <CiLocationOn className="inline text-xl" /> New Delhi, India
+                  <CiLocationOn className="inline text-xl" />{" "}
+                  {profileUser.location}
                 </p>
                 <p className="p-2 text-sm">
-                  <GrDocumentText className="inline text-lg" /> Software
-                  Engineer at MSME
+                  <GrDocumentText className="inline text-lg" />{" "}
+                  {profileUser.occupation}
                 </p>
               </div>
               <div className="my-3 border-b-2">
                 <p className="p-2 relative text-sm">
                   Who's viewed your profile
-                  <p className="absolute right-2 top-2">1355</p>
+                  <p className="absolute right-2 top-2">
+                    {profileUser.viewedProfile}
+                  </p>
                 </p>
                 <p className="p-2 relative text-sm">
                   Impresstion of your post
-                  <p className="absolute right-2 top-2">15432</p>
+                  <p className="absolute right-2 top-2">
+                    {profileUser.impresstions}
+                  </p>
                 </p>
               </div>
               <div className="my-3 border-b-2">
@@ -96,21 +120,16 @@ const ProfilePage = () => {
                 </div>
               </div>
             </div>
-            <div className="w-3/4 bg-white rounded-lg mx-auto mt-2">
-              <Post />
-            </div>
-            <div className="w-3/4 bg-white rounded-lg mx-auto mt-2">
-              <Post />
-            </div>
-            <div className="w-3/4 bg-white rounded-lg mx-auto mt-2">
-              <Post />
-            </div>
-           
+            {post.data.map((userPost) => (
+              <div className="w-3/4 bg-white rounded-lg mx-auto mt-2">
+                <Post post={userPost} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ProfilePage
+export default ProfilePage;

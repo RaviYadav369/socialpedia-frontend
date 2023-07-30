@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { TbUsersPlus } from "react-icons/tb";
 import {
@@ -7,9 +7,30 @@ import {
   BsBellFill,
 } from "react-icons/bs";
 import { MdLightMode } from "react-icons/md";
-import { Link } from "react-router-dom";
-const Navbar = () => {
-  const userId =2;
+import { Link, useNavigate } from "react-router-dom";
+import { FaSleigh, FaUserAlt } from "react-icons/fa";
+import { signIn, signOut, signUp } from "../store/reducers/auth/auth.action";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../store/reducers/user/user.action";
+
+const LargeNav = ({ user, isDropDown, setisDropDown }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const SignIn = () => {
+    // dispatch(signIn());
+    setisDropDown(false);
+  };
+  const SignUp = () => {
+    // dispatch(signUp());
+    setisDropDown(false);
+  };
+  const SignOut = () => {
+    dispatch(signOut());
+    dispatch(clearUser());
+    navigate("/feed");
+    setisDropDown(false);
+  };
+
   return (
     <>
       <div className="relative">
@@ -47,7 +68,52 @@ const Navbar = () => {
                 <BsFillQuestionCircleFill />
               </li>
               <li className="">
-                <Link to={`/profile/${userId}`} >
+                <div className="flex items-center gap-3 relative">
+                  {user?.firstName ? (
+                    <>
+                      <div
+                        onClick={() => setisDropDown((prev) => !prev)}
+                        className="border  rounded-full w-10 h-10 "
+                      >
+                        {/* <img
+                          src={user?.picturePath}
+                          alt="user"
+                          className="w-full h-full object-contain rounded-full"
+                        /> */}
+                        <img
+                          src="https://cdn3.vectorstock.com/i/1000x1000/00/92/teen-boy-character-avatar-vector-11360092.jpg"
+                          alt="avatar"
+                          className="w-full h-full object-contain rounded-full"
+                        />
+                      </div>
+                      {isDropDown && (
+                        <div className="absolute shadow-lg py-3 -bottom-16 -right-0  w-32 bg-white z-20 flex flex-col gap-3 border border-gray-100">
+                          <button onClick={SignOut}>Sign Out</button>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <span
+                        onClick={() => setisDropDown((prev) => !prev)}
+                        className="border p-2 border-gray-600 rounded-full h-10 w-10 "
+                      >
+                        <FaUserAlt className="object-contain w-full h-full rounded-full" />
+                      </span>
+                      {isDropDown && (
+                        <div className="absolute shadow-lg py-3 -bottom-24 -right-4 w-32 z-20 bg-white flex flex-col gap-3 border border-gray-100">
+                          <Link to="/login">
+                            <button onClick={SignIn}>Sign In</button>
+                          </Link>
+                          <Link to="/register">
+                            <button onClick={SignOut}>Sign Up</button>
+                          </Link>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+                {/* <Link to={`/profile/${userId}`} >
                   <div className="h-10  w-10">
                     <img
                       src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
@@ -55,12 +121,32 @@ const Navbar = () => {
                       alt="photo"
                     />
                   </div>
-                </Link>
+                </Link> */}
               </li>
             </ul>
           </div>
         </div>
       </div>
+    </>
+  );
+};
+const Navbar = () => {
+  const [isDropDown, setisDropDown] = useState(false);
+
+  // const user = {
+  //   // firstName: "Ravi",
+  // };
+  const user = useSelector((globalstate) =>
+    globalstate.auth.user ? globalstate.auth.user : globalstate.user
+  );
+  // console.log(user);
+  return (
+    <>
+      <LargeNav
+        user={user}
+        isDropDown={isDropDown}
+        setisDropDown={setisDropDown}
+      />
     </>
   );
 };
