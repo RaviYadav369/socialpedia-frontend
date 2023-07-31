@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiMiniUserPlus } from "react-icons/hi2";
 import { BiCommentDetail } from "react-icons/bi";
-import { AiOutlineLike } from "react-icons/ai";
+import { BsFillSendFill } from "react-icons/bs";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { BsShare } from "react-icons/bs";
 import { Link } from "react-router-dom";
-const Post = ({ post }) => {
+import { useDispatch } from "react-redux";
+import { likePost } from "../store/reducers/post/post.action";
+import { updateUserFriend } from "../store/reducers/friend/friend.action";
+
+const Post = ({ post, user }) => {
+  const [like, setlike] = useState(post.likes[user._id] ? true : false);
+  const [friend, setfriend] = useState(
+    user.friends.includes(post.userId) ? true : false
+  );
+  const dispatch = useDispatch();
+
+  const handleLike = () => {
+    dispatch(likePost(post._id, user._id));
+    setlike(true);
+  };
+  const handleFriend = () => {
+    dispatch(updateUserFriend(user._id, post.userId));
+    setfriend((prev) => !prev);
+  };
   // console.log(post);
   return (
     <>
@@ -20,7 +39,11 @@ const Post = ({ post }) => {
           <div className="inline-block relative w-11/12 ">
             <span className="text-lg p-2 font-semibold ">{`${post.firstName} ${post.lastName}`}</span>
             <span className=" right-0 absolute">
-              <HiMiniUserPlus className="text-2xl" />
+              {friend ? (
+                <BsFillSendFill className="text-2xl" />
+              ) : (
+                <HiMiniUserPlus className="text-2xl" onClick={handleFriend} />
+              )}
             </span>
             <p className="text-xs ml-2">{post.location}</p>
           </div>
@@ -36,7 +59,12 @@ const Post = ({ post }) => {
           </div>
           <div className="p-2 border-t m-1 flex justify-between">
             <div className="gap-7 flex">
-              <AiOutlineLike className="text-2xl" />
+              {like ? (
+                <AiFillLike className="text-2xl" onClick={handleLike} />
+              ) : (
+                <AiOutlineLike className="text-2xl" onClick={handleLike} />
+              )}
+
               <BiCommentDetail className="text-2xl" />
             </div>
             <div>

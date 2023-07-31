@@ -117,12 +117,12 @@ const HomePage = () => {
               </div>
             </div>
 
-            {post.data.map((postData, index) => (
-              <div className="w-11/12 bg-white rounded-lg mx-auto mt-2">
-                <Post post={postData} key={index} />
+            {post.data?.map((postData, index) => (
+              <div className="w-11/12 bg-white rounded-lg mx-auto mt-2" key={index}>
+                <Post user={user} post={postData}  />
               </div>
             ))}
-            
+
           </div>
           <div className="col-span-1">
             <div className="bg-white w-4/5 p-2 rounded-lg">

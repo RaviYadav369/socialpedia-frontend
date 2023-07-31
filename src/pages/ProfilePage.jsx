@@ -20,18 +20,15 @@ import { getUserPost } from "../store/reducers/post/post.action";
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const params = useParams();
-
-  // useEffect(()=>{
-  //   dispatch(getUser(params.userId));
-  //   dispatch(getUserPost(params.userId))
- 
-  // },[params.userId])
-   
-
   let post = useSelector((globalstate) => globalstate.post);
+  useEffect(() => {
+    dispatch(getUser(post.userId))
+    dispatch(getUserPost(params.userId))
+    
+  }, [])
+  
   const profileUser = useSelector((globalstate) => globalstate.user);
 
-  console.log(profileUser);
   return (
     <>
       <Navbar />
@@ -40,14 +37,14 @@ const ProfilePage = () => {
           <div className="col-span-1 h-[400px] flex justify-end ">
             <div className=" bg-white w-4/5 p-2 rounded-lg">
               <div className="border-b-2">
-                <div className="w-12 h-12 mx-auto mb-2">
+                <div className="w-12 h-12 mx-auto ">
                   <img
                     className="w-full h-full rounded-full"
                     alt="photo"
                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNP4oKUXDbkuEQhaY-AMiOem8EaHZhBQglQQ&usqp=CAU"
                   />
                 </div>
-                <h2>{`${profileUser.firstName} ${profileUser.laseName}`}</h2>
+                <h2 className="text-center text-xl p-1 font-semibold">{`${profileUser.firstName} ${profileUser.lastName}`}</h2>
               </div>
               <div className="my-3 border-b-2">
                 <p className="p-2 text-sm">
@@ -69,7 +66,7 @@ const ProfilePage = () => {
                 <p className="p-2 relative text-sm">
                   Impresstion of your post
                   <p className="absolute right-2 top-2">
-                    {profileUser.impresstions}
+                    {profileUser.impressions}
                   </p>
                 </p>
               </div>
@@ -120,9 +117,9 @@ const ProfilePage = () => {
                 </div>
               </div>
             </div>
-            {post.data.map((userPost) => (
-              <div className="w-3/4 bg-white rounded-lg mx-auto mt-2">
-                <Post post={userPost} />
+            {post.data?.map((userPost,index) => (
+              <div className="w-3/4 bg-white rounded-lg mx-auto mt-2" key={index} >
+                <Post post={userPost} user={profileUser} />
               </div>
             ))}
           </div>

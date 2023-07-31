@@ -19,7 +19,6 @@ export const postReducer = (state = initialState,action)=>{
         case UPDATE_POST:
             return{
                 ...state,
-                ...action.payload,
             }
         case GET_USER_POST:
             return {

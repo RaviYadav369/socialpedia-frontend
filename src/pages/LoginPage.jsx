@@ -13,7 +13,6 @@ const LoginPage = () => {
   });
 
   const handleSubmit = async () => {
-    console.log(newCredentials);
     await dispatch(signIn(newCredentials));
     dispatch(getPost())
     navigate("/feed");

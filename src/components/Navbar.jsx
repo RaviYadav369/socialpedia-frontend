@@ -12,6 +12,7 @@ import { FaSleigh, FaUserAlt } from "react-icons/fa";
 import { signIn, signOut, signUp } from "../store/reducers/auth/auth.action";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../store/reducers/user/user.action";
+import {getUserFriend} from '../store/reducers/friend/friend.action'
 
 const LargeNav = ({ user, isDropDown, setisDropDown }) => {
   const dispatch = useDispatch();
@@ -30,6 +31,11 @@ const LargeNav = ({ user, isDropDown, setisDropDown }) => {
     navigate("/feed");
     setisDropDown(false);
   };
+
+  const friends = ()=>{
+    dispatch(getUserFriend(user._id))
+    navigate('/friend')
+  }
 
   return (
     <>
@@ -54,8 +60,8 @@ const LargeNav = ({ user, isDropDown, setisDropDown }) => {
                 <MdLightMode />
               </li>
               <li className="text-xl">
-                <Link to="/friends">
-                  <TbUsersPlus />
+                <Link to='/friends' >
+                  <TbUsersPlus onClick={friends} />
                 </Link>
               </li>
               <li className="text-xl">
@@ -76,10 +82,11 @@ const LargeNav = ({ user, isDropDown, setisDropDown }) => {
                         className="border  rounded-full w-10 h-10 "
                       >
                         {/* <img
-                          src={user?.picturePath}
+                        
+                          src={`../public/assets/${user?.picturePath}`}
                           alt="user"
                           className="w-full h-full object-contain rounded-full"
-                        /> */}
+                        />  */}
                         <img
                           src="https://cdn3.vectorstock.com/i/1000x1000/00/92/teen-boy-character-avatar-vector-11360092.jpg"
                           alt="avatar"
